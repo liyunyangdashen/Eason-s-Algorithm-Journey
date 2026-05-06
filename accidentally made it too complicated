@@ -1,0 +1,56 @@
+#include<iostream>
+using namespace std; const int N = 10; //总共9个数
+bool chk(int x){ //检查一个数里是否有不符合规则的
+    int h = x / 100,t = x / 10 % 10,o = x % 10;//百、十、个
+    return !(h == t || t == o || h == o) && h && t && o;
+    //       全部不相同            且         不为零
+}
+bool chk2(int x,int y){//检查两个数之中是否有不符合规则的
+    int h1 = x / 100,t1 = x / 10 % 10,o1 = x % 10;//第一个数拆分
+    int h2 = y / 100,t2 = y / 10 % 10,o2 = y % 10;//第二个数拆分
+    return chk(x) && chk(y) && !(h1 == h2 || h1 == t2 || h1 == o2 || t1 == h2 || t1 == t2 || t1 == o2 || o1 == h2 || o1 == t2 || o1 == o2);
+    //检查两个单独的数 和 每个数位两两之间是否重复
+}
+bool chk3(int x,int y,int z){//检查两个数之中是否有不符合规则的
+    return chk2(x,y) && chk2(y,z) && chk2(z,x);
+    //检查每个数两两之间是否重复
+}/*
+int getk2(int a,int b,int c[]); //获取1位k
+int getk(int x,int y){//获取3位k
+    int h1 = x / 100,t1 = x / 10 % 10,o1 = x % 10;//第一
+    int h2 = y / 100,t2 = y / 10 % 10,o2 = x % 10;//第二
+    //       第三。      计数。    答案
+    int c[3],h3,t3,o3,tot = 0;
+    //   统计那三个没重复的
+    for (int i = 1;i <= 9;i++) // 如果都不同
+        if (i != h1 && i != h2 && i != t1 && i != t2 && i != o1 && i != o2)     // 在数组里加上这个数
+            c[tot++] = i;
+    for (int i = 0;i < 3;i++)
+        for (int j = 0;j < 3;j++) //枚举
+            if (i != j){ //i和j不相同
+                h3 = i, t3 = j, o3 = getk2(i,j,c);
+                int num = h3 * 100 + t3 * 10 + o3;
+                if (3 * x == num) //符合比例关系
+                    return num;
+            }
+    return -1;
+}
+int getk2(int a,int b,int c[]){
+    //           找没有重复的那一个
+    for (int i = 0;i < 3;i++)
+        if (c[i] != a && c[i] != b)
+            return c[i];
+}*/
+int main(){//主函数
+    ios::sync_with_stdio(false); //关闭输入输出流（加速输出
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    //    最小123。    最大999/3=333
+    for (int i = 123;i <= 333;i++){
+        int j = 2 * i,k = 3 * i;
+//检查   是否两个无相同 且 满足比例关系
+        if (chk3(i,j,k) && 3 * i == k && 2 * i == j)
+            cout << i << ' ' << j << ' ' << k << '\n';// 输出正确答案
+    }
+    return 0; //结束程序
+}
