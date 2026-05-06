@@ -1,0 +1,35 @@
+#include<iostream>
+#include<algorithm>
+using namespace std; 
+using ll = long long;
+ll x,y,ans;
+ll gcd(ll a,ll b){
+    ll r = a % b;
+    while (r){
+        a = b;
+        b = r;
+        r = a % b;
+    }
+    return b;
+}
+ll lcm(ll a,ll b){
+    return a * b / gcd(a,b);
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> x >> y;
+    if (y % x != 0){
+        cout << 0;
+        return 0;
+    }
+    for (ll i = 1;i <= y / x / i;i++){
+        if ((y / x) % i == 0 && __gcd(i,y / x / i) == 1){
+            ans++;
+            if (i * x != y / i) ans++;
+        }
+    }
+    cout << ans;
+    return 0;
+}
