@@ -1,0 +1,50 @@
+#include<iostream>
+using namespace std; 
+int n,k = 30,ans; string m,num;
+string addition(string a,string b){
+    string sum = ""; int lena = a.size(),lenb = b.size(),carry = 0;
+    if (a.size() > b.size()) swap(a,b);
+    for (int i = 0;i < lenb - lena;i++)
+        a = '0' + a;
+    for (int i = lenb - 1;i >= 0;i--){
+        int bita = a[i],bitb = b[i];
+        if (bita >= 'A') bita -= 'A', bita += 10;
+        else bita -= '0';
+        if (bitb >= 'A') bitb -= 'A', bitb += 10;
+        else bitb -= '0';
+        int bitsum = bita + bitb + carry;
+        if (bitsum >= n) carry = 1, bitsum -= n;
+        else carry = 0;
+        if (bitsum > 9) sum = char(bitsum - 10 + 'A') + sum;
+        else sum = char(bitsum + '0') + sum;
+    }
+    if (carry) sum = char(carry + '0') + sum;
+    return sum;
+}
+string rs(string s){
+    int lens = s.size();
+    string ans = "";
+    for (int i = s.size() - 1;i >= 0;i--)
+        ans += s[i];
+    return ans;
+}
+bool irs(string s){
+    return s == rs(s);
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> m;
+    num = m;
+    while (k--){
+        ans++;
+        num = addition(num,rs(num));
+        if (irs(num)){
+            cout << "STEP=" << ans;
+            exit(0);
+        }
+    }
+    cout << "Impossible!";
+    return 0;
+}
