@@ -1,0 +1,30 @@
+#include<iostream>
+using namespace std; const int N = 105;
+int r,c,g[N][N],vis[N][N],dx[] = {1,-1,0,0},dy[] = {0,0,-1,1},cnt; char n;
+void dfs(int stx,int sty){
+    for (int i = 0;i < 4;i++){
+        int nx = stx + dx[i],ny = sty + dy[i];
+        if ((nx > 0 && nx <= r && ny > 0 && ny <= c) && (!vis[nx][ny] && g[nx][ny]))
+            vis[nx][ny] = 1,
+            dfs(nx,ny);
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> r >> c;
+    for (int i = 1;i <= r;i++)
+        for (int j = 1;j <= c;j++){
+            cin >> n;
+            g[i][j] = n - '0';
+        }
+    for (int i = 1;i <= r;i++)
+        for (int j = 1;j <= c;j++)
+            if (!vis[i][j] && g[i][j])
+                vis[i][j] = 1,
+                dfs(i,j),
+                cnt++;
+    cout << cnt;
+    return 0;
+}
