@@ -1,0 +1,23 @@
+#include<iostream>
+using namespace std;
+int n,r;
+string ten_to_x_bit(int x,int a){
+    string ans = "";
+    while (x){
+        int bitnum = x % a; char bitans;
+        x /= a;
+        if (bitnum < 0) bitnum -= a,x++;
+        if (bitnum >= 10) bitans = char(bitnum + 'A' - 10);
+        else bitans = char(bitnum + '0');
+        ans = bitans + ans;
+    }
+    return ans;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> r;
+    cout << n << '=' << ten_to_x_bit(n,r) << "(base" << r << ')';
+    return 0;
+}
