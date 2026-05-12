@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std; 
+string a; char isbn;
+char get_ISBN(string k){
+    char x; int sum = 0,tot = 0;
+    for (int i = 0;i < 12;i++)
+        if (k[i] != '-')
+            sum += (a[i] - '0') * (++tot);
+    x = sum % 11 + '0';
+    if (x == '0' + 10)
+        x = 'X';
+    return x;
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> a;
+    isbn = get_ISBN(a);
+    if (a[12] == isbn)
+        cout << "Right";
+    else
+        cout << a.substr(0,12) << isbn;
+    return 0;
+}
