@@ -1,0 +1,30 @@
+#include<iostream>
+#include<deque>
+using namespace std; const int N = 1e6 + 5;
+int n,m,c,a[N],flag; deque<int> dqmax,dqmin;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> m >> c;
+    for (int i = 1;i <= n;i++){
+        cin >> a[i];
+        while (!dqmax.empty() && dqmax.front() + m - 1 < i)
+            dqmax.pop_front();
+        while (!dqmin.empty() && dqmin.front() + m - 1 < i)
+            dqmin.pop_front();
+        while (!dqmax.empty() && a[dqmax.back()] <= a[i])
+            dqmax.pop_back();
+        while (!dqmin.empty() && a[dqmin.back()] >= a[i])
+            dqmin.pop_back();
+        dqmax.push_back(i);
+        dqmin.push_back(i);
+        if (a[dqmax.front()] - a[dqmin.front()] <= c && i >= m){
+            cout << i - m + 1 << '\n';
+            flag = 1;
+        }
+    }
+    if (!flag)
+        cout << "NONE";
+    return 0;
+}
