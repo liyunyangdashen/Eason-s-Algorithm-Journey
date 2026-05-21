@@ -1,0 +1,29 @@
+#include<iostream>
+#include<cstring>
+using namespace std; const int N = 1e3 + 5;
+int n,m,u,v,g[N][N],vis[N],maxx;
+void dfs(int st){
+    maxx = max(maxx,st);
+    for (int i = 1;i <= n;i++)
+        if (g[st][i] && !vis[i])
+            vis[i] = 1,
+            dfs(i);
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> m;
+    while (m--){
+        cin >> u >> v;
+        g[u][v] = 1;
+    }
+    for (int i = 1;i <= n;i++){
+        memset(vis,0,sizeof(vis));
+        vis[i] = 1;
+        maxx = i;
+        dfs(i);
+        cout << maxx << ' ';
+    }
+    return 0;
+}
