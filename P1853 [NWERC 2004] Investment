@@ -1,0 +1,23 @@
+#include<iostream>
+#include<cstring>
+using namespace std; const int N = 15,T = 1e6 + 5;//因为利滚利，所以T保持原状。
+int t,s,n,c[N],v[N],f[T];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> t >> s >> n;
+    for (int i = 1;i <= n;i++){
+        cin >> c[i] >> v[i];
+        c[i] /= 1000;
+    }
+    while (s--){
+        memset(f,0,sizeof(f));
+        for (int i = 1;i <= n;i++)
+            for (int j = c[i];j <= t / 1000;j++)
+                f[j] = max(f[j],f[j - c[i]] + v[i]);
+        t += f[t / 1000];
+    }
+    cout << t;
+    return 0;
+}
