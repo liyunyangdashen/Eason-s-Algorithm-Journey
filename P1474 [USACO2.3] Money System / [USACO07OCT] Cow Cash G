@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std; using ll = long long; const int N = 30,T = 10005;
+ll n,t,c[N],f[T];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> t;
+    f[0] = 1;
+    for (int i = 1;i <= n;i++){
+        cin >> c[i];
+        for (int j = c[i];j <= t;j++){
+            f[j] += f[j - c[i]];
+        }
+    }
+    cout << f[t];
+    return 0;
+}
