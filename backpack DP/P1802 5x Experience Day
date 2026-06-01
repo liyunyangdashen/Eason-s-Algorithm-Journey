@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std; const int N = 1e3 + 5,T = 1e3 + 5;
+int n,t,c,v,w,l,f[T]; long long sum;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> t;
+    for (int i = 1;i <= n;i++){
+        cin >> l >> w >> c;
+        sum += l; v = w - l;
+        if (v)
+            for (int j = t;j >= c;j--)
+                f[j] = max(f[j],f[j - c] + v);
+    }
+    cout << 5LL * (f[t] + sum);
+    return 0;
+}
