@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std; const int N = 5e5 + 5;
+int n,m,a[N],op,x,y,w[N << 2];
+void unionn(int x){w[x] = w[x << 1] + w[x << 1 | 1];}
+void build(int x,int l,int r){if (l == r){w[x] = a[l]; return ;} int mid = (l + r) / 2; build(x << 1,l,mid); build(x << 1 | 1,mid + 1,r); unionn(x);}
+void update(int x,int l,int r,int pos,int val){if (l == r){w[x] += val; return ;} int mid = (l + r) / 2; if (pos <= mid) update(x << 1,l,mid,pos,val); else update(x << 1 | 1,mid + 1,r,pos,val); unionn(x);}
+bool inRange(int L,int R,int l,int r){return l <= L && R <= r;} bool outRange(int L,int R,int l,int r){return l > R || r < L;}
+int getSum(int x,int L,int R,int l,int r){if (inRange(L,R,l,r)) return w[x]; else if (!outRange(L,R,l,r)){int mid = (L + R) / 2; return getSum(x << 1,L,mid,l,r) + getSum(x << 1 | 1,mid + 1,R,l,r);}else return 0;}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> n >> m;
+    for (int i = 1;i <= n;i++)
+        cin >> a[i];
+    build(1,1,n);
+    while (m--){
+        cin >> op >> x >> y;
+        if (op - 2)
+            update(1,1,n,x,y);
+        else
+            cout << getSum(1,1,n,x,y) << '\n';
+    }
+    return 0;
+}
