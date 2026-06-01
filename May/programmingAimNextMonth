@@ -1,0 +1,24 @@
+## 🗓 Roadmap (June)
+| Phase | Focus | Target Algorithms | Status |
+| :--- | :--- | :--- | :--- |
+| **Phase 1** | Data Stream Management | Binary Indexed Tree (BIT) | [ ] |
+| **Phase 2** | Dynamic Range Aggregation | Segment Tree | [ ] |
+| **Phase 3** | Advanced Graphs/Search | Binary Lifting | [ ] |
+
+## 🛠 Weaponry (Algorithm Toolkit)
+- [x] **Monotonic Stack/Queue** : Mastered (Stable)
+- [x] **Union-Find** : Mastered (Stable)
+- [x] **Sparse Table** : Mastered (Stable)
+- [ ] **Binary Indexed Tree (BIT)** : In Progress
+- [ ] **Segment Tree** : Conceptualizing
+
+## 📝 Log (Reflective Journal)
+*Tracking failures as stepping stones for system refinement.*
+
+- **Problem P1198**: Solved using Monotonic Queue (Optimized for suffix queries).
+- **Next Target**: P1908 (Reversing Pairs via BIT).
+
+## ⚡️ Coding Axioms
+1. **Efficiency**: Aim for $O(\log N)$ or $O(1)$.
+2. **Robustness**: Explicit handling of edge cases (NaN, Inf, 0/0).
+3. **Modularity**: Build reusable templates for every algorithm.
