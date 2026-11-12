@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std; const int N = 55,T = 405;
+int t1,t2,n,c1[N],c2[N],v[N],f[T][T];
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> t1 >> t2 >> n;
+    for (int i = 1;i <= n;i++){
+        cin >> c1[i] >> c2[i] >> v[i];
+        for (int j = t1;j >= c1[i];j--)
+            for (int k = t2;k >= c2[i];k--)
+                f[j][k] = max(f[j][k],f[j - c1[i]][k - c2[i]] + v[i]);
+    }
+    cout << f[t1][t2];
+    return 0;
+}

@@ -1,0 +1,40 @@
+#include<iostream>
+#include<cstring>
+using namespace std; const int N = 105,T = N;
+int n,t1,t2,c1[N],c2[N],v[N],f[T][T],f_[T][T];
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> n;
+    for (int i = 1;i <= n;i++)
+        cin >> c1[i] >> c2[i] >> v[i];
+    cin >> t1 >> t2;
+    memset(f_,0x3f,sizeof(f_));
+    f_[0][0] = 0;
+    for (int i = 1;i <= n;i++)
+        for (int j = t1;j >= c1[i];j--)
+            for (int k = t2;k >= c2[i];k--)
+                if (f_[j - c1[i]][k - c2[i]] != 0x3f3f3f3f){
+                    int next_f = f[j - c1[i]][k - c2[i]] + 1;
+                    int next_f_ = f_[j - c1[i]][k - c2[i]] + v[i];
+                    if (next_f > f[j][k])
+                        f[j][k] = next_f,
+                        f_[j][k] = next_f_;
+                    else if (next_f == f[j][k])
+                        f_[j][k] = min(f_[j][k],next_f_);
+                }
+    int max_f = 0, min_t = 0;
+    for(int j = 0; j <= t1; j++) {
+        for(int k = 0; k <= t2; k++) {
+            if(f[j][k] > max_f) {
+                max_f = f[j][k];
+                min_t = f_[j][k];
+            } else if(f[j][k] == max_f && max_f > 0) {
+                min_t = min(min_t, f_[j][k]);
+            }
+        }
+    }
+    cout << min_t;
+    return 0;
+}
