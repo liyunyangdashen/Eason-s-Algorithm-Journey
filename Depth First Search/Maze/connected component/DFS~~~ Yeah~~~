@@ -1,0 +1,34 @@
+#include<iostream>
+using namespace std; const int N = 505;
+int r,c,vis[N][N],cnt,dx[] = {-1,1,0,0},dy[] = {0,0,-1,1}; char g[N][N];
+void dfs(int stx,int sty){
+    for (int i = 0;i < 4;i++){
+        int nx = stx + dx[i],ny = sty + dy[i];
+        if ((nx > 0 && nx <= r && ny > 0 && ny <= c) && !(vis[nx][ny] || g[nx][ny] - '0'))
+            vis[nx][ny] = 1,
+            dfs(nx,ny);
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> r >> c;
+    for (int i = 1;i <= r;i++)
+        for (int j = 1;j <= c;j++)
+            cin >> g[i][j];
+    for (int i = 1;i <= r;i++){
+        if (g[i][1] - '*' && !vis[i][1]) vis[i][1] = 1,dfs(i,1);
+        if (g[i][c] - '*' && !vis[i][c]) vis[i][c] = 1,dfs(i,c);
+    }
+    for (int i = 1;i <= c;i++){
+        if (g[1][i] - '*' && !vis[1][i]) vis[1][i] = 1,dfs(1,i);
+        if (g[r][i] - '*' && !vis[r][i]) vis[r][i] = 1,dfs(r,i);
+    }
+    for (int i = 1;i <= r;i++)
+        for (int j = 1;j <= c;j++)
+            if (g[i][j] - '*' && !vis[i][j])
+                cnt++;
+    cout << cnt;
+    return 0;
+}

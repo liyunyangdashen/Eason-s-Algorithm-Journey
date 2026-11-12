@@ -1,0 +1,68 @@
+#include<iostream>
+#include<queue>
+#include<cstring>
+#include<vector>
+using namespace std; const int N = 105;
+struct space{int x,y,c,cost; bool flag;
+bool operator < (const space & A)const{return cost > A.cost;}};
+int rc,m,g[N][N],vis_c[N][N][2],x,y,c;
+int dx[] = {-1,1,0,0},dy[] = {0,0,-1,1},minn = 2e9;
+bool flag = 0;
+void bfs(int stx,int sty){
+    vis_c[stx][sty][g[stx][sty]] = 0;
+    priority_queue<space> q;
+    q.push(space{stx,sty,g[stx][sty],0,false});
+    while (!q.empty()){
+        space f = q.top();
+        q.pop();
+        if (f.cost > vis_c[f.x][f.y][f.c]) continue;
+        if (f.x == rc && f.y == rc){
+            minn = min(minn,f.cost);
+            break;
+        }
+        for (int i = 0;i < 4;i++){
+            int nx = f.x + dx[i],ny = f.y + dy[i];
+            if (nx < 1 || nx > rc || ny < 1 || ny > rc)
+                continue;
+            if (g[nx][ny] != -1){
+                int nc = f.cost + (f.c != g[nx][ny]);
+                if (nc < vis_c[nx][ny][g[nx][ny]])
+                    vis_c[nx][ny][g[nx][ny]] = nc,
+                    q.push(space{nx,ny,g[nx][ny],nc,false});
+            }else if (!f.flag){
+                int nc = f.cost + 2 + (f.c != 0);
+                if (nc < vis_c[nx][ny][0])
+                    vis_c[nx][ny][0] = nc,
+                    q.push(space{nx,ny,0,nc,true});
+                nc -= (f.c != 0); nc += (f.c != 1);
+                if (nc < vis_c[nx][ny][1])
+                    vis_c[nx][ny][1] = nc,
+                    q.push(space{nx,ny,1,nc,true});
+            }
+        }
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    memset(g,-1,sizeof(g));
+    memset(vis_c,0x3f,sizeof(vis_c));
+    cin >> rc >> m;
+    for (int i = 1;i <= m;i++){
+        cin >> x >> y >> c;
+        g[x][y] = c;
+    }
+    bfs(1,1);
+    if (minn == 2e9)
+        cout << -1;
+    else
+        cout << minn;
+    return 0;
+}
+/*
+所以，你昨晚的代码不是没考虑颜色，而是：
+
+在无色格子的 nc = f.cost + 2 里，漏掉了临时变色和当前格子的异色判定，导致红分身钻了空子，少交了 1 块钱异色费。
+
+而一旦要把这个异色判定补上，二维账本就无法同时兼容“红黄两种颜色在这里的潜力”，从而产生严重的剪枝误杀。*/

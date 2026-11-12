@@ -1,0 +1,51 @@
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+#include<cstring>
+using namespace std; const int N = 16; 
+int n,vis[N]; double x[N],y[N],ans[N],dis[N][N],mid_ans[1 << N][N];
+//                            储存答案。 储存距离      存储搜索答案
+double dist(int a,int b){double dx = x[a] - x[b],dy = y[a] - y[b];return sqrt(dx * dx + dy * dy);}
+void dfs(int st,int d,int cnt,double sum){
+    if (sum >= ans[n]) return ; // 最优性剪枝
+    if (sum > 0) ans[d] = min(ans[d],sum);
+    if (d == n) return ;
+    for (int i = 1;i <= n;i++)
+        if (!vis[i] && sum + dis[st][i] < mid_ans[cnt | (1 << (i - 1))][i]){
+                vis[i] = 1,
+                mid_ans[cnt | (1 << (i - 1))][i] = sum + dis[st][i];
+                dfs(i,d + 1,cnt | (1 << (i - 1)),sum + dis[st][i]);
+                vis[i] = 0; 
+        }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n;
+    x[0] = y[0] = 0;
+    ans[0] = 2e9;
+    /*for (int i = 1;i <= n;i++){
+        ans[i] = 2e9;
+        cin >> x[i] >> y[i];
+        dis[0][i] = dist(0,i);
+        for (int j = 0;j < i;j++)
+            dis[i][j] = dis[j][i] = dist(i,j);
+        mid_ans[0][i] = 2e9;
+        for (int j = 0;j < (1 << (n + 1));j++)
+            mid_ans[j][i] = 2e9;
+    }*/
+    for (int i = 0;i <= n;i++)
+        ans[i] = 1e15;
+    for (int i = 0;i <= (1 << n);i++)
+        for (int j = 0;j <= n;j++)
+            mid_ans[i][j] = 1e15;
+    x[0] = y[0] = 0;
+    for (int i = 1;i <= n;i++) cin >> x[i] >> y[i];
+    for (int i = 0;i <= n;i++)
+        for (int j = 0;j <= n;j++)
+            dis[i][j] = dist(i,j);
+    dfs(0,0,0,0);
+    cout << fixed << setprecision(2) << ans[n];
+    return 0;
+}
