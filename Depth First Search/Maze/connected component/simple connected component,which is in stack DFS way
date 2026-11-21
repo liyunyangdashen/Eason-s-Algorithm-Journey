@@ -1,0 +1,42 @@
+#include<iostream>
+#include<stack>
+using namespace std; const int N = 35;
+int rc,g[N][N],vis[N][N],dx[] = {-1,1,0,0},dy[] = {0,0,-1,1};
+void dfs(int stx,int sty){
+    vis[stx][sty] = 1;
+    stack<int> qx,qy;
+    qx.push(stx); qy.push(sty);
+    while (!qx.empty()){
+        int fx = qx.top(),fy = qy.top();
+        qx.pop(); qy.pop();
+        for (int i = 0;i < 4;i++){
+            int nx = fx + dx[i],ny = fy + dy[i];
+            if ((nx > 0 && nx <= rc && ny > 0 && ny <= rc) && !(g[nx][ny] || vis[nx][ny]))
+                vis[nx][ny] = 1,
+                qx.push(nx), qy.push(ny);
+        }
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> rc;
+    for (int i = 1;i <= rc;i++)
+        for (int j = 1;j <= rc;j++)
+            cin >> g[i][j];
+    for (int i = 1;i <= rc;i++){
+        if (!(g[1][i] || vis[1][i])) dfs(1,i);
+        if (!(g[i][1] || vis[i][1])) dfs(i,1);
+        if (!(g[rc][i] || vis[rc][i])) dfs(rc,i);
+        if (!(g[i][rc] || vis[i][rc])) dfs(i,rc);
+    }
+    for (int i = 1;i <= rc;i++)
+        for (int j = 1;j <= rc;j++)
+            if (!g[i][j] && !vis[i][j])
+                g[i][j] = 2;
+    for (int i = 1;i <= rc;i++)
+        for (int j = 1;j <= rc;j++)
+            cout << g[i][j] << " \n"[j == rc];
+    return 0;
+}

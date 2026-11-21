@@ -1,0 +1,28 @@
+//正向思考（检方逻辑）： 每个小弟去千辛万苦地找自己能遇到哪个大哥，结果疯狂迷路绕圈子，最后 TLE（超时）。
+//逆转思维（辩方绝杀）： 把图的边反向，让所有的大哥按地位从高到低，直接挨个顺藤摸瓜去“认领”自己的小弟。小弟只要被第一个大哥认领，直接锁定最高头衔！
+#include<iostream>
+#include<vector>
+using namespace std; const int N = 1e5 + 5;
+int n,m,u,v,maxx[N]; vector<int> a[N];
+void dfs(int rt,int st){
+    maxx[st] = max(maxx[st],rt);
+    for (int i = 0;i < a[st].size();i++)
+        if (!maxx[a[st][i]])
+            dfs(rt,a[st][i]);
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    cin >> n >> m;
+    while (m--){
+        cin >> u >> v;
+        a[v].push_back(u);
+    }
+    for (int i = n;i >= 1;i--)
+        if (!maxx[i])
+            dfs(i,i);
+    for (int i = 1;i <= n;i++)
+        cout << maxx[i] << ' ';
+    return 0;
+}
